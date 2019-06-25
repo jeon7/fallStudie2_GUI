@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane hgap="5.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" vgap="5.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chat.client.ChatController">
+<GridPane hgap="5.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" vgap="5.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.teko.GJSB.chat.client.ChatController">
   <columnConstraints>
     <ColumnConstraints halignment="RIGHT" hgrow="NEVER" maxWidth="199.0" minWidth="10.0" prefWidth="149.0" />
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="354.0" />
@@ -24,10 +24,10 @@
   </rowConstraints>
    <children>
       <Label text="Benutzername:" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" />
-      <TextField fx:id="username" GridPane.columnIndex="1" />
+      <TextField fx:id="username" onAction="#sendUsername" GridPane.columnIndex="1" />
       <Button fx:id="connect" mnemonicParsing="false" onAction="#sendUsername" text="Verbinden" GridPane.columnIndex="2" />
       <TextArea fx:id="messages" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="3" GridPane.rowIndex="1" />
-      <TextField fx:id="send_message" GridPane.columnSpan="2" GridPane.rowIndex="2" />
+      <TextField fx:id="send_message" onAction="#sendMessage" GridPane.columnSpan="2" GridPane.rowIndex="2" />
       <Button fx:id="send" mnemonicParsing="false" onAction="#sendMessage" text="Senden" GridPane.columnIndex="2" GridPane.rowIndex="2" />
    </children>
    <padding>

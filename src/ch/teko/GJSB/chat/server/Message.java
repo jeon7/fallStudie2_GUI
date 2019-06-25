@@ -1,4 +1,4 @@
-package chat.server;
+package ch.teko.GJSB.chat.server;
 
 public class Message {
 	private String username = null;

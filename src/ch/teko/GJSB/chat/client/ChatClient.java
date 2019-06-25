@@ -1,4 +1,4 @@
-package chat.client;
+package ch.teko.GJSB.chat.client;
 
 import java.io.IOException;
 

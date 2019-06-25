@@ -1,4 +1,4 @@
-package chat.client;
+package ch.teko.GJSB.chat.client;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -70,7 +70,7 @@ public class ChatController implements Initializable {
 			messages.appendText("Du bist bereits verbunden");
 		} else {
 			try {
-				connection = new Socket(InetAddress.getByName("127.0.0.1"), 1300);
+				connection = new Socket(InetAddress.getByName("127.0.0.1"), 1200);
 				BufferedWriter buf_writer = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
 				buf_writer.write(registr_command + username.getText());
 				buf_writer.newLine();
@@ -138,50 +138,17 @@ public class ChatController implements Initializable {
 			buf_writer.write(get_command + amount_lines);
 			buf_writer.newLine();
 			buf_writer.flush();
-			// Read the response from the server
+			// Read the respons from the server
 			BufferedReader buf_reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-			
-			//
-			// gukhwa edit************************
-			String singleMessege;
-        	StringBuffer chatCourse = new StringBuffer();
-        	while ((singleMessege = buf_reader.readLine()) != null) {
-        	    chatCourse.append(singleMessege);
-        	    chatCourse.append(System.lineSeparator());
-        	    checkReaderReady(buf_reader); // if reader is ready within 1 sec. get that message from server.
-        	    // if reader is not ready within 1 sec.
-        	    // without this break, cannot exit this while loop before socket.close()
-        	    if(!buf_reader.ready()) 
-        	        break;
-        	}
-        	messages.setText(chatCourse.toString());
-        	chatCourse.delete(0, chatCourse.length());
-        	
-//			String rec_message;
-//			rec_message = buf_reader.readLine();
-//			processMessage(rec_message);
-        	
+			String rec_message;
+			rec_message = buf_reader.readLine();
+			processMessage(rec_message);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
 	}
-	
-	// check if reader is ready to read.
-    // Method to exit while-loop without closing socket.
-    private void checkReaderReady(BufferedReader reader) throws IOException {
-        long timeStamp = System.currentTimeMillis();
-        // keep checking if reader is ready to read
-        while((System.currentTimeMillis() - timeStamp) < 1000){
-            if(reader.ready())
-                break;
-        }       
-    }
 
-			//
-			//*************************************
-    
-    
 	// Methode to process the received message from the server
 	private void processMessage(String rec_message) {
 		try {
@@ -200,6 +167,11 @@ public class ChatController implements Initializable {
 				// stop background thread and notify user
 				exit = true;
 				messages.appendText(payload);
+				try {
+				connection.close();
+				}catch (IOException e) {
+					e.printStackTrace();
+				}
 				break;
 			default:
 				messages.appendText("Nicht unterstüzte Nachricht von Server empfangen\n" + rec_message);
