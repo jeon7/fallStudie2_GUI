@@ -14,13 +14,13 @@ public class Message {
 	public String getMessage() {
 		String message;
 		if (command == ConnectionHandler.register_command) {
-			message = "User '" + username + "' joined chatting.";
+			message = "'" + username + "' joined chatting.";
 			return message;
 		} else if (command == ConnectionHandler.send_command) {
 			message = username + ": " + content;
 			return message;
 		} else if (command == ConnectionHandler.exit_command) {
-			message = "User " + username + " exited chatting.";
+			message = "'" + username + "' exited chatting.";
 			return message;
 		} else {
 			System.out.println("error");

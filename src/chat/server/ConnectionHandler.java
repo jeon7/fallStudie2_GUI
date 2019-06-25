@@ -48,11 +48,11 @@ public class ConnectionHandler extends Thread {
 			    }
 			    
 			    if(client_message.startsWith(register_command)) {
-			        registerUser_addToMessegeList(writer, client_message);
+			        registerUser_addToMessegeList(client_message);
 			    } else if(client_message.startsWith(send_command)) {
-					chatMessage_addToMessageList(writer, client_message);
+					chatMessage_addToMessageList(client_message);
 			    } else if(client_message.startsWith(exit_command)) {
-			    	exitMessage_addToMessageList(writer);
+			    	exitMessage_addToMessageList();
 			        break;
 			    } else if(client_message.startsWith(get_command)) {
 			    	writeChatCourse(client_message, writer);
@@ -75,36 +75,29 @@ public class ConnectionHandler extends Thread {
 		}
 	}
 
-	private void registerUser_addToMessegeList(BufferedWriter writer, String client_message) throws IOException, InterruptedException {
+	private void registerUser_addToMessegeList(String client_message) throws IOException, InterruptedException {
 		String content = client_message.substring(client_message.indexOf("#")+1);
 		this.username = content;
 		writingSemaphore.acquire(1);
 		messageList.add(new Message(username, register_command, content));
 		writingSemaphore.release(1);
 
-		writer.newLine();
-		writer.flush();
 	}
 	
-	private void chatMessage_addToMessageList(BufferedWriter writer, String client_message) throws IOException, InterruptedException {
+	private void chatMessage_addToMessageList(String client_message) throws IOException, InterruptedException {
 		String content = client_message.substring(client_message.indexOf("#")+1);
 		writingSemaphore.acquire(1);
 		messageList.add(new Message(username, send_command, content));
 		writingSemaphore.release(1);
-
-		writer.newLine();
-		writer.flush();
 	}
 	
-	private void exitMessage_addToMessageList(BufferedWriter writer) throws IOException, InterruptedException {
+	private void exitMessage_addToMessageList() throws IOException, InterruptedException {
 		writingSemaphore.acquire(1);
 		messageList.add(new Message(username, exit_command, null));
 		writingSemaphore.release(1);
 		
 		// for test
 		System.out.println("disconnetion request. socket closing");
-		writer.newLine();
-		writer.flush();
 	}
 	
 	// from messageList(arrayList), which contains all history of register#, send#, exit#
